@@ -2,12 +2,11 @@ import connectDB from "@/db/connectDB";
 import Transaction from "@/models/Transaction";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     await connectDB();
     const { amount, date, description } = await req.json();
 
-    console.log(amount, date, description);
     const newTransaction = await Transaction.create({
       amount,
       date,
@@ -31,10 +30,38 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
   } catch (error: any) {
     console.log("error in adding transaction", error.message);
-    NextResponse.json(
+    return NextResponse.json(
       {
         success: false,
         message: "Error adding transaction",
+        error: error.message,
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    await connectDB();
+
+    const transactions = await Transaction.find(); // sorted latest first
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "All transactions fetched successfully",
+        transactions,
+      },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.error("Error fetching transactions:", error.message);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to fetch transactions",
         error: error.message,
       },
       { status: 500 }

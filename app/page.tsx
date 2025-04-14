@@ -1,11 +1,11 @@
 import Test from "@/components/test";
-import TransactionTracking from "@/components/TransactionTracking";
+import Transactions from "@/components/transactions/Transactions";
+import TransactionTracking from "@/components/transactions/TransactionTracking";
 
 export default function Home() {
   return (
-    <div className="">
-      {/* <Test /> */}
-      <TransactionTracking />
+    <div className="max-w-5xl mx-auto p-6">
+      <Transactions />
     </div>
   );
 }

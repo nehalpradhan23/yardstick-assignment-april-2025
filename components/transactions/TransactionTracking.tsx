@@ -6,31 +6,32 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+} from "../ui/card";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import axios from "axios";
+import toast from "react-hot-toast";
+import useFetchTransactions from "@/hooks/useFetchTransactions";
 
 interface newTransactionType {
-  amount: "";
+  amount: string;
   date: string;
   description: string;
 }
 
+const newTransactionData = {
+  amount: "",
+  date: "",
+  description: "",
+};
+
 const TransactionTracking = () => {
-  const [transactions, setTransactions] = useState([]);
+  const [newTransaction, setNewTransaction] =
+    useState<newTransactionType>(newTransactionData);
 
-  const [newTransaction, setNewTransaction] = useState<newTransactionType>({
-    amount: "",
-    date: "",
-    description: "",
-  });
+  const { fetchAllTransactions } = useFetchTransactions();
 
-  const [errors, setErrors] = useState({
-    amount: "",
-    date: "",
-    description: "",
-  });
+  const [errors, setErrors] = useState(newTransactionData);
 
   // ------------------------------------------------------
   const validateTransaction = (transaction: any) => {
@@ -63,7 +64,6 @@ const TransactionTracking = () => {
       date: "",
       description: "",
     });
-    console.log(newTransaction);
     let validationErrors = validateTransaction(newTransaction);
     if (
       validationErrors.amount !== "" ||
@@ -79,14 +79,20 @@ const TransactionTracking = () => {
     try {
       const response = await axios.post("/api/transactions", newTransaction);
       console.log("response: ", response);
+      if (response.data.success) {
+        toast.success("Transaction added successfully");
+        setNewTransaction(newTransactionData);
+        fetchAllTransactions();
+      }
     } catch (error) {
+      toast.error("Error adding transaction");
       console.log(error);
     }
   };
 
   // =========================================================
   return (
-    <div className="max-w-5xl mx-auto p-6">
+    <div className="">
       <h1 className="text-3xl font-bold mb-8 text-center">
         Personal Finance Tracker
       </h1>
