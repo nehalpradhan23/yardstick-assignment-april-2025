@@ -5,12 +5,14 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-    const { amount, date, description } = await req.json();
+    const { amount, date, description, category } = await req.json();
+    // console.log(amount, date, description, category);
 
     const newTransaction = await Transaction.create({
       amount,
       date,
       description,
+      category,
     });
 
     if (newTransaction) {
@@ -106,9 +108,9 @@ export async function DELETE(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     // await connectDB()
-    const { _id, amount, description } = await req.json();
+    const { _id, amount, description, category } = await req.json();
 
-    if (!_id || !amount || !description) {
+    if (!_id || !amount || !description || !category) {
       return NextResponse.json(
         { success: false, message: "Missing required fields" },
         { status: 400 }
@@ -117,7 +119,7 @@ export async function PATCH(req: NextRequest) {
 
     const updatedTransaction = await Transaction.findByIdAndUpdate(
       _id,
-      { amount, description },
+      { amount, description, category },
       { new: true }
     );
 

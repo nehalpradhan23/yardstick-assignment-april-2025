@@ -32,6 +32,16 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { CATEGORIES } from "./TransactionTracking";
 
 const TransactionList = () => {
   const { loading, fetchAllTransactions } = useFetchTransactions();
@@ -41,6 +51,7 @@ const TransactionList = () => {
     id: "",
     amount: "",
     description: "",
+    category: "",
   });
 
   const [editTransactionModalOpen, setEditTransactionModalOpen] =
@@ -61,13 +72,15 @@ const TransactionList = () => {
   const handleEditTransaction = (
     id: string,
     amount: string,
-    description: string
+    description: string,
+    category: string
   ) => {
     setEditTransactionModalOpen(true);
     setTransactionToEdit({
       id: id,
       amount: amount,
       description: description,
+      category: category,
     });
   };
 
@@ -106,6 +119,7 @@ const TransactionList = () => {
         _id: transactionToEdit.id,
         amount: transactionToEdit.amount,
         description: transactionToEdit.description,
+        category: transactionToEdit.category,
       });
       console.log(response);
 
@@ -152,6 +166,7 @@ const TransactionList = () => {
                       <TableHead>Date</TableHead>
                       <TableHead>Amount</TableHead>
                       <TableHead>Description</TableHead>
+                      <TableHead>Category</TableHead>
                       <TableHead className="text-center">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -161,6 +176,7 @@ const TransactionList = () => {
                         <TableCell>{transaction.date}</TableCell>
                         <TableCell>{transaction.amount}</TableCell>
                         <TableCell>{transaction.description}</TableCell>
+                        <TableCell>{transaction.category}</TableCell>
                         <TableCell className="flex gap-8 items-center justify-center h-12">
                           <Edit
                             className="cursor-pointer hover:scale-105"
@@ -169,7 +185,8 @@ const TransactionList = () => {
                               handleEditTransaction(
                                 transaction._id,
                                 transaction.amount,
-                                transaction.description
+                                transaction.description,
+                                transaction.category
                               );
                             }}
                           />
@@ -240,6 +257,30 @@ const TransactionList = () => {
                 onChange={handleEditTransactionChange}
                 value={transactionToEdit.description}
               />
+            </div>
+            <div className="flex flex-col gap-3">
+              <span>Category</span>
+              <Select
+                name="category"
+                value={transactionToEdit.category}
+                onValueChange={(value) =>
+                  setTransactionToEdit((prev) => ({ ...prev, category: value }))
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {/* <SelectLabel>Fruits</SelectLabel> */}
+                    {CATEGORIES.map((item, index) => (
+                      <SelectItem key={index} value={item.value}>
+                        {item.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div className="flex gap-4 justify-end">

@@ -14,6 +14,7 @@ interface TransactionType {
   amount: string;
   date: string;
   description: string;
+  category: string;
 }
 
 // const AppContext = createContext({});
