@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-interface TransactionType {
+export interface TransactionType {
   _id: string;
   amount: string;
   date: string;
