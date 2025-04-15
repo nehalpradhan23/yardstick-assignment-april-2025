@@ -21,7 +21,7 @@ const useFetchTransactions = () => {
     try {
       const res = await axios.get("/api/transactions");
       setAllTransactions(res?.data?.transactions);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (error) {
       console.log(error);
       toast.error("Error fetching all transactions");
@@ -34,7 +34,7 @@ const useFetchTransactions = () => {
     fetchAllTransactions();
   }, []);
 
-  console.log(allTransactions);
+  // console.log(allTransactions);
 
   return { fetchAllTransactions, loading };
 };

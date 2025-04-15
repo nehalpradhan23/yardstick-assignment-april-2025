@@ -20,25 +20,6 @@ import { useAppContext } from "@/context/AppContext";
 const MonthlyChart = () => {
   const { allTransactions } = useAppContext();
 
-  // const getMonthlyData = () => {
-  //   const monthData: any = {};
-
-  //   allTransactions.forEach((transaction) => {
-  //     const month = transaction.date.substring(0, 7); // Format: YYYY-MM
-  //     if (!monthData[month]) {
-  //       monthData[month] = 0;
-  //     }
-  //     monthData[month] += transaction.amount;
-  //   });
-
-  //   return Object.keys(monthData)
-  //     .map((month) => ({
-  //       month: month,
-  //       expenses: monthData[month],
-  //     }))
-  //     .sort((a, b) => a.month.localeCompare(b.month));
-  // };
-
   const getMonthlyData = () => {
     const monthData: Record<string, number> = {};
 

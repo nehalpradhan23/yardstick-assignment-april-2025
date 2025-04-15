@@ -18,12 +18,18 @@ interface TransactionType {
 
 // const AppContext = createContext({});
 
-const AppContext = createContext<{
+interface AppContextProps {
   allTransactions: TransactionType[];
   setAllTransactions: Dispatch<SetStateAction<TransactionType[]>>;
-}>({
+  deleteTransactionModalOpen: boolean;
+  setDeleteTransactionModalOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const AppContext = createContext<AppContextProps>({
   allTransactions: [],
   setAllTransactions: () => {},
+  deleteTransactionModalOpen: false,
+  setDeleteTransactionModalOpen: () => {},
 });
 
 export const useAppContext = () => {
@@ -36,6 +42,8 @@ export const AppContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [allTransactions, setAllTransactions] = useState<TransactionType[]>([]);
+  const [deleteTransactionModalOpen, setDeleteTransactionModalOpen] =
+    useState(false);
   const { fetchAllTransactions } = useFetchTransactions();
 
   useEffect(() => {
@@ -44,7 +52,14 @@ export const AppContextProvider = ({
 
   // =====================================
   return (
-    <AppContext.Provider value={{ allTransactions, setAllTransactions }}>
+    <AppContext.Provider
+      value={{
+        allTransactions,
+        setAllTransactions,
+        deleteTransactionModalOpen,
+        setDeleteTransactionModalOpen,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

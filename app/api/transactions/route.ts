@@ -68,3 +68,83 @@ export async function GET() {
     );
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    await connectDB();
+    const { id } = await req.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, message: "Transaction ID is required" },
+        { status: 400 }
+      );
+    }
+
+    const deletedTransaction = await Transaction.findByIdAndDelete(id);
+
+    if (!deletedTransaction) {
+      return NextResponse.json(
+        { success: false, message: "Transaction not Found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Transaction deleted.", deletedTransaction },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.log("Error deleting transaction: ", error.message);
+    return NextResponse.json(
+      { success: false, message: "Error deleting transaction" },
+      { status: 501 }
+    );
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  try {
+    // await connectDB()
+    const { _id, amount, description } = await req.json();
+
+    if (!_id || !amount || !description) {
+      return NextResponse.json(
+        { success: false, message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const updatedTransaction = await Transaction.findByIdAndUpdate(
+      _id,
+      { amount, description },
+      { new: true }
+    );
+
+    if (!updatedTransaction) {
+      return NextResponse.json(
+        { success: false, message: "Transaction not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Transaction updated successfully",
+        transaction: updatedTransaction,
+      },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.error("Error updating transaction:", error.message);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to update transaction",
+        error: error.message,
+      },
+      { status: 500 }
+    );
+  }
+}
