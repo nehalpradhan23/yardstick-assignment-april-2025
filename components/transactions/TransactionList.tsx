@@ -152,9 +152,9 @@ const TransactionList = () => {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="flex gap-5 items-center justify-center">
-              <span className="text-3xl">Loading ...</span>
-              <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="flex flex-col gap-5 items-center justify-center">
+              {/* <span className="text-3xl">Loading ...</span> */}
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (
             <div className="h-[400px] w-full overflow-y-scroll">
