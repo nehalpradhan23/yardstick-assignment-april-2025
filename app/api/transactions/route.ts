@@ -107,7 +107,7 @@ export async function DELETE(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    // await connectDB()
+    await connectDB();
     const { _id, amount, description, category } = await req.json();
 
     if (!_id || !amount || !description || !category) {
