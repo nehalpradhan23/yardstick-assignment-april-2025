@@ -37,7 +37,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
@@ -158,10 +157,11 @@ const TransactionList = () => {
               <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (
-            <div className="">
+            <div className="h-[400px] w-full overflow-y-scroll">
               {allTransactions.length > 0 ? (
-                <Table>
+                <Table className="">
                   <TableHeader>
+                    {/* <TableHeader className="sticky top-0 bg-gray-100 z-10"> */}
                     <TableRow>
                       <TableHead>Date</TableHead>
                       <TableHead>Amount</TableHead>
@@ -170,13 +170,24 @@ const TransactionList = () => {
                       <TableHead className="text-center">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
-                  <TableBody>
+                  <TableBody className="">
                     {allTransactions?.map((transaction) => (
-                      <TableRow key={transaction._id} className="pt-3 h-12">
+                      <TableRow key={transaction._id} className="">
                         <TableCell>{transaction.date}</TableCell>
                         <TableCell>{transaction.amount}</TableCell>
                         <TableCell>{transaction.description}</TableCell>
-                        <TableCell>{transaction.category}</TableCell>
+                        <TableCell
+                          style={{
+                            color: CATEGORIES.find(
+                              (item) => item.value === transaction.category
+                            )?.color,
+                            fontWeight: "500",
+                          }}
+                        >
+                          {CATEGORIES.find(
+                            (item) => item.value === transaction.category
+                          )?.name || transaction.category}
+                        </TableCell>
                         <TableCell className="flex gap-8 items-center justify-center h-12">
                           <Edit
                             className="cursor-pointer hover:scale-105"

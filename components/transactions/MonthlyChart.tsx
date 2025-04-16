@@ -43,7 +43,7 @@ const MonthlyChart = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Monthly Expenses</CardTitle>
+        <CardTitle className="text-2xl">Monthly Expenses</CardTitle>
         <CardDescription>View your spending patterns</CardDescription>
       </CardHeader>
       <CardContent className="h-64">

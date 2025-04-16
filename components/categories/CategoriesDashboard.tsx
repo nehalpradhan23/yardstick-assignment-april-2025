@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { CATEGORIES } from "../transactions/TransactionTracking";
 import { TransactionType, useAppContext } from "@/context/AppContext";
+import useFetchTransactions from "@/hooks/useFetchTransactions";
 
 // Define TypeScript interfaces
 interface Transaction {
@@ -84,8 +85,13 @@ export default function CategoriesDashboard() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const { allTransactions } = useAppContext();
+  const { fetchAllTransactions } = useFetchTransactions();
 
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
+
+  useEffect(() => {
+    fetchAllTransactions();
+  }, []);
 
   useEffect(() => {
     setTransactions(allTransactions);
@@ -192,7 +198,7 @@ export default function CategoriesDashboard() {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="mt-10">
       <h1 className="text-3xl font-bold mb-8">Categories Dashboard</h1>
 
       {/* Summary Cards */}
@@ -234,7 +240,8 @@ export default function CategoriesDashboard() {
       </div>
 
       {/* Main Dashboard Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="flex flex-col gap-8">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"> */}
         {/* Main Pie Chart */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-6">Expenses by Category</h2>
@@ -246,7 +253,7 @@ export default function CategoriesDashboard() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  outerRadius={80}
+                  outerRadius={90}
                   fill="#8884d8"
                   dataKey="value"
                   nameKey="name"

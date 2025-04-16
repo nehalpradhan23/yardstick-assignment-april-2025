@@ -1,4 +1,4 @@
-import Categories from "@/components/categories/Categories";
+import Budget from "@/components/budget/Budget";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -16,15 +16,15 @@ const page = () => {
             Home
           </Button>
         </Link>
-        <Link href={"/budget"}>
-          <Button className="bg-blue-600">
+        <Link href={"/categories"}>
+          <Button className="bg-green-600">
+            Go to categories
             <ArrowRight />
-            Manage Budget
           </Button>
         </Link>
       </div>
       {/* <h2 className="text-3xl font-bold mb-8">Categories</h2> */}
-      <Categories />
+      <Budget />
     </div>
   );
 };
