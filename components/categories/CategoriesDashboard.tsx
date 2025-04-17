@@ -281,8 +281,8 @@ export default function CategoriesDashboard() {
         {/* Recent Transactions */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-6">Recent Transactions</h2>
-          <div className="overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
+          <div className="overflow-scroll">
+            <table className="min-w-full divide-y divide-gray-200 overflow-scroll">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
